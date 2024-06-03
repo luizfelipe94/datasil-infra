@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datasil-api
+  labels:
+    app: datasil-api
+spec:
+  selector:
+    matchLabels:
+      app: datasil-api
+  template:
+    metadata:
+      labels:
+        app: datasil-api
+    spec:
+      containers:
+      - name: datasil-api
+        image: datasil-api:latest
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - secretRef:
+            name: datasil-secrets
+        # env:
+        # - name: API_PORT
+        #   value: '5000'
+        # - name: DB_USER
+        #   value: postgres
+        # - name: DB_PASSWORD
+        #   value: postgres
+        # - name: DB_HOST
+        #   value: postgresql.datasil.svc
+        # - name: DB_PORT
+        #   value: '5432'
+        # - name: DB_NAME
+        #   value: datasil
+        # - name: AWS_ACCESS_KEY
+        #   value: masoud
+        # - name: AWS_SECRET_KEY
+        #   value: Strong#Pass#2022
+        # - name: AWS_REGION
+        #   value: us-east-1
+        # - name: AWS_S3_ENDPOINT
+        #   value: minio.default.svc
