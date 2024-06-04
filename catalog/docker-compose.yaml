@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  hive:
+    build: ./hive
+    entrypoint: /init-hive.sh
+    ports:
+      - "9083:9083"
+      - "10000:10000"
+      - "10002:10002"
+    depends_on:
+      - postgres
+      - minio
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=hive
+      - POSTGRES_PASSWORD=hive
+      - POSTGRES_DB=metastore
+    volumes:
+      - postgres-data1:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    environment:
+      MINIO_ACCESS_KEY: minio_access_key
+      MINIO_SECRET_KEY: minio_secret_key
+    command: server /data --console-address ":9001"
+
+  trino-coordinator:
+    image: "trinodb/trino:latest"
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./trino/coordinator/etc:/etc/trino:ro
+    depends_on:
+      - hive
+      - trino-worker
+
+  trino-worker:
+    image: "trinodb/trino:latest"
+    volumes:
+      - ./trino/worker/etc:/etc/trino:ro
+    depends_on:
+      - hive
+
+  superset:
+    build: ./superset
+    ports:
+      - "8088:8088"
+    volumes:
+      - superset-data:/app/superset_home
+      - ./superset/superset_config.py:/app/superset_config.py
+    environment:
+      SUPERSET_CONFIG_PATH: /app/superset_config.py
+
+volumes:
+  minio-data:
+  postgres-data1:
+  superset-data:
