@@ -3,7 +3,7 @@
         <name>hive.metastore.uris</name>
         <value>thrift://hive:9083</value>
     </property>
-    <property>
+    <property> 
         <name>hive.metastore.client.socket.timeout</name>
         <value>300</value>
     </property>
