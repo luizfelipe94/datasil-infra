@@ -1,7 +1,7 @@
 <configuration>
     <property>
         <name>hive.metastore.uris</name>
-        <value>thrift://hive:9083</value>
+        <value>thrift://hive.default.svc:9083</value>
     </property>
     <property> 
         <name>hive.metastore.client.socket.timeout</name>
@@ -13,16 +13,16 @@
     </property>
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:postgresql://postgres:5432/metastore</value>
+        <value>jdbc:postgresql://pg-hive-postgresql.default.svc:5432/metastore</value>
         <description>JDBC connect string for a JDBC metastore</description>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionUserName</name>
-        <value>hive</value>
+        <value>postgres</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionPassword</name>
-        <value>hive</value>
+        <value>postgres</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
@@ -47,15 +47,15 @@
     </property>
     <property>
         <name>fs.s3a.access.key</name>
-        <value>minio_access_key</value>
+        <value>rootuser</value>
     </property>
     <property>
         <name>fs.s3a.secret.key</name>
-        <value>minio_secret_key</value>
+        <value>rootpass123</value>
     </property>
     <property>
         <name>fs.s3a.endpoint</name>
-        <value>http://minio:9000</value>
+        <value>http://minio.default.svc:9000</value>
     </property>
     <property>
         <name>fs.s3a.path.style.access</name>

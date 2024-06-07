@@ -15,16 +15,16 @@ cmd_button(name='migrations',
 k8s_yaml(secret_yaml_generic(name="datasil-secrets", from_env_file="../datasil-api/.env.k8s"))
 
 ## datasil api
-docker_build(
-  "datasil-api", 
-  "../datasil-api/", 
-  dockerfile="../datasil-api/Dockerfile",
-  live_update=[
-    sync("../datasil-api/", "/app")
-  ]
-)
-k8s_yaml("k8s/api/deployment.yaml")
-k8s_resource('datasil-api', port_forwards=5000)
+# docker_build(
+#   "datasil-api", 
+#   "../datasil-api/", 
+#   dockerfile="../datasil-api/Dockerfile",
+#   live_update=[
+#     sync("../datasil-api/", "/app")
+#   ]
+# )
+# k8s_yaml("k8s/api/deployment.yaml")
+# k8s_resource('datasil-api', port_forwards=5000)
 
 ## datasil app
 # local_resource(
@@ -59,7 +59,7 @@ helm_remote(
     "global.postgresql.auth.postgresPassword=postgres"
   ],
 )
-k8s_resource('postgresql', port_forwards=[5434)
+k8s_resource('postgresql', port_forwards=[5434])
 
 # minio
 helm_remote(
